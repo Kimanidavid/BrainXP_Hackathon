@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BrainXP - Gamified Learning UI</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Header styles */
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .site-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        /* Dropdown menu styles */
+        .dropdown {
+            position: relative;
+        }
+        .dropbtn {
+            background-color: #45a049;
+            color: white;
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+        .dropdown-content a:hover {background-color: #f1f1f1;}
+        .dropdown:hover .dropdown-content {display: block;}
+        .dropdown:hover .dropbtn {background-color: #3e8e41;}
+        
+        /* Adjust main content padding */
+        .main-content {
+            padding-top: 1rem;
+        }
+
+        /* Resources page styles */
+        #resources-page {
+            display: none;
+            padding: 2rem;
+            background-color: #f0f0f0;
+        }
+        #resources-page h2 {
+            color: #4CAF50;
+            margin-bottom: 1rem;
+        }
+        .resource-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .resource-card h3 {
+            margin-top: 0;
+            color: #4CAF50;
+        }
+        .resource-card p {
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        .resource-card button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .resource-card button:hover {
+            background-color: #45a049;
+        }
+        #back-to-dashboard {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 1rem;
+            transition: background-color 0.3s;
+        }
+        #back-to-dashboard:hover {
+            background-color: #45a049;
+        }
+
+        /* Search bar styles */
+        #search-bar {
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        /* No results message */
+        #no-results {
+            display: none;
+            color: #666;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="site-name">BrainXP</div>
+        <div class="dropdown">
+            <button class="dropbtn">Menu</button>
+            <div class="dropdown-content">
+                <a href="#">Profile</a>
+                <a href="#">Settings</a>
+                <a href="#" onclick="showResources(); return false;">Resources</a>
+                <a href="#">Help</a>
+                <a href="#">Logout</a>
+            </div>
+        </div>
+    </header>
+
+    <div id="main-content" class="main-content">
+        <div class="card">
+            <div class="card-header">
+                <h3>Chat with Teacher</h3>
+            </div>
+            <div class="card-content">
+                <div id="chat-messages" class="chat-messages"></div>
+                <div class="chat-input">
+                    <input type="text" id="user-input" placeholder="Ask your question...">
+                    <button id="send-message" class="button">Send</button>
+                </div>
+            </div>
+        </div>
+    
+        <div class="container">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Progress</h2>
+                </div>
+                <div class="card-content">
+                    <div class="progress-section">
+                        <div>
+                            <p>Level <span id="level">3</span></p>
+                            <p>XP: <span id="xp">350</span>/500</p>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div id="xp-progress" class="progress-bar"></div>
+                        </div>
+                    </div>
+                    <div class="points-section">
+                        <p>Total Points: <span id="points">1250</span></p>
+                        <div class="button-group">
+                            <button id="continue-lessons" class="button">Continue Lessons</button>
+                            <button id="view-resources" class="button">Resources</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                
+            <div class="grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Badges</h3>
+                    </div>
+                    <div class="card-content badges">
+                        <div class="badge">🏆 Top Performer</div>
+                        <div class="badge">⭐ Quick Learner</div>
+                        <div class="badge">🎖 Math Whiz</div>
+                        <div class="badge">⚡ Streak Master</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Leaderboard</h3>
+                    </div>
+                    <div class="card-content leaderboard">
+                        <ol>
+                            <li><span>1. David</span><span>2500 pts</span></li>
+                            <li><span>2. Felix</span><span>2350 pts</span></li>
+                            <li><span>3. Peter</span><span id="your-points">1250 pts</span></li>
+                            <li><span>4. Klause</span><span>1100 pts</span></li>
+                            <li><span>5. Jordan K.</span><span>950 pts</span></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="card">
+                <div class="card-header">
+                    <h3>Learning Materials</h3>
+                </div>
+                <div class="card-content learning-materials">
+                    <h4>Literature</h4>
+                    <ul id="literature-list"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="resources-page">
+        <button id="back-to-dashboard">Back to Dashboard</button>
+        <h2>Learning Resources</h2>
+        <input type="text" id="search-bar" placeholder="Search resources...">
+        <div id="resources-list"></div>
+        <p id="no-results">No resources found matching your search.</p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+    document.getElementById('continue-lessons').addEventListener('click', function() {
+        const learningMaterials = document.querySelector('.learning-materials');
+        learningMaterials.scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // Populate learning materials
+    const literatureList = document.getElementById('literature-list');
+    const literature = [
+        { title: 'Shakespeare\'s Plays', description: 'Dive into the works of the Bard', duration: '3 hours' },
+        { title: 'Modern Poetry', description: 'Explore contemporary poetic expressions', duration: '1.5 hours' },
+        { title: 'Novel Writing Workshop', description: 'Learn the craft of storytelling', duration: '2 hours' },
+    ];
+
+    literature.forEach(item => {
+        const li = document.createElement('li');
+        li.innerHTML = `<strong>${item.title}</strong> - ${item.description} (${item.duration})`;
+        literatureList.appendChild(li);
+    });
+
+    // Updated Resources page functionality
+    const resources = [
+        { title: 'Online Textbooks', description: 'Access our collection of digital textbooks covering various subjects.' },
+        { title: 'Video Tutorials', description: 'Watch expert-led video tutorials on complex topics.' },
+        { title: 'Interactive Simulations', description: 'Engage with interactive simulations to enhance your understanding.' },
+        { title: 'Practice Quizzes', description: 'Test your knowledge with our extensive collection of practice quizzes.' },
+        { title: 'Study Guides', description: 'Download comprehensive study guides for each subject.' }
+    ];
+
+    function showResources() {
+        document.getElementById('main-content').style.display = 'none';
+        const resourcesPage = document.getElementById('resources-page');
+        resourcesPage.style.display = 'block';
+
+        const searchBar = document.getElementById('search-bar');
+        searchBar.value = ''; // Clear search bar
+        searchBar.addEventListener('input', filterResources);
+
+        displayResources(resources);
+    }
+
+    function displayResources(resourcesToShow) {
+        const resourcesList = document.getElementById('resources-list');
+        const noResults = document.getElementById('no-results');
+        resourcesList.innerHTML = '';
+
+        if (resourcesToShow.length === 0) {
+            noResults.style.display = 'block';
+        } else {
+            noResults.style.display = 'none';
+            resourcesToShow.forEach(resource => {
+                const resourceCard = document.createElement('div');
+                resourceCard.className = 'resource-card';
+                resourceCard.innerHTML = `
+                    <h3>${resource.title}</h3>
+                    <p>${resource.description}</p>
+                    <button onclick="alert('Accessing ${resource.title}')">Access Resource</button>
+                `;
+                resourcesList.appendChild(resourceCard);
+            });
+        }
+    }
+
+    function filterResources() {
+        const searchTerm = this.value.toLowerCase();
+        const filteredResources = resources.filter(resource => 
+            resource.title.toLowerCase().includes(searchTerm) || 
+            resource.description.toLowerCase().includes(searchTerm)
+        );
+        displayResources(filteredResources);
+    }
+
+    // Add event listener to the "Resources" button in the main content
+    document.getElementById('view-resources').addEventListener('click', showResources);
+
+    // Function to go back to the main content
+    function showMainContent() {
+        document.getElementById('resources-page').style.display = 'none';
+        document.getElementById('main-content').style.display = 'block';
+    }
+
+    // Add event listener to the back button
+    document.getElementById('back-to-dashboard').addEventListener('click', showMainContent);
+    </script>
+</body>
+</html>
