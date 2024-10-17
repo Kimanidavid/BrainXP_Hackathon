@@ -130,11 +130,12 @@
         <div class="dropdown">
             <button class="dropbtn">Menu</button>
             <div class="dropdown-content">
+                <a href="signin.html">Sign In</a>
                 <a href="#">Profile</a>
                 <a href="#">Settings</a>
                 <a href="#" onclick="showResources(); return false;">Resources</a>
                 <a href="#">Help</a>
-                <a href="#">Logout</a>
+                <a href="#" onclick="logout(); return false;">Logout</a>
             </div>
         </div>
     </header>
@@ -312,6 +313,13 @@
 
     // Add event listener to the back button
     document.getElementById('back-to-dashboard').addEventListener('click', showMainContent);
+
+    // Add this new function for logout
+    function logout() {
+        // Here you would typically clear any user session data
+        // For now, we'll just redirect to the sign-in page
+        window.location.href = 'signin.html';
+    }
     </script>
 </body>
 </html>
