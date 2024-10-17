@@ -72,13 +72,9 @@ document.addEventListener('DOMContentLoaded', function() {
         // For now, we'll just log it to the console
         console.log('Progress saved:', { level, xp, points });
 
-        // Check if we should navigate to the learning materials page
-        // This is where you'd implement the navigation to the new page
         if (level >= 5) {
             alert('You\'ve reached level 5! New learning materials are now available.');
-            // Here you would typically navigate to the learning materials page
-            // For example:
-            // window.location.href = 'learning_materials.html';
+            
         }
     }
 });
