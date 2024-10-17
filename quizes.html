@@ -71,6 +71,34 @@
         .button:hover {
             background-color: #45a049;
         }
+
+        /* Add these new styles for the modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 300px;
+            text-align: center;
+            border-radius: 8px;
+        }
+
+        .modal-content h3 {
+            color: #4CAF50;
+            margin-top: 0;
+        }
     </style>
 </head>
 <body>
@@ -182,11 +210,26 @@
         </div>
     </div>
 
+    <!-- Add this modal div at the end of the body -->
+    <div id="submitModal" class="modal">
+        <div class="modal-content">
+            <h3>Submit Successful</h3>
+            <p>Redirecting to dashboard...</p>
+        </div>
+    </div>
+
     <script>
         function submitQuiz() {
-            alert("Quiz submitted!");
-            // Here you would typically handle the quiz submission
-            // For now, we'll just show an alert
+            // Get the modal
+            var modal = document.getElementById("submitModal");
+
+            // Display the modal
+            modal.style.display = "block";
+
+            // Set a timeout to redirect after 2 seconds
+            setTimeout(function() {
+                window.location.href = "index.html"; // Replace with your dashboard URL
+            }, 2000);
         }
     </script>
 </body>
